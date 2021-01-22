@@ -1,0 +1,19 @@
+spring:
+  mvc:    view:      prefix: "/WEB-INF/views/"
+      suffix: ".jsp"
+---
+#https://lannstark.tistory.com/14
+spring:  jpa:
+    generate-ddl: true
+    properties:      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+
+logging:  level:    org:
+      hibernate:        
+        type:
+          descriptor:
+            sql: trace 
+---
+server:  port: 80      
