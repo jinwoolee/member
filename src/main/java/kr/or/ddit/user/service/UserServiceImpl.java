@@ -1,4 +1,4 @@
-package kr.or.ddit.member.service;
+package kr.or.ddit.user.service;
 
 import java.util.List;
 import java.util.stream.Collector;
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.common.SearchCondition;
 import kr.or.ddit.common.SearchType;
-import kr.or.ddit.login.model.User;
-import kr.or.ddit.login.model.UserVo;
-import kr.or.ddit.login.repository.UserRepository;
+import kr.or.ddit.user.model.User;
+import kr.or.ddit.user.model.UserVo;
+import kr.or.ddit.user.repository.UserRepository;
 
 @Transactional
 @Service("userService")

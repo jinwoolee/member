@@ -12,9 +12,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.or.ddit.login.model.User;
-import kr.or.ddit.login.model.UserVo;
-import kr.or.ddit.login.repository.UserRepository;
+import kr.or.ddit.user.model.User;
+import kr.or.ddit.user.model.UserVo;
+import kr.or.ddit.user.repository.UserRepository;
 
 @Transactional
 @Service("loginService")
@@ -47,8 +47,5 @@ public class LoginServiceImpl implements LoginService, InitializingBean{
 		userRepository.save(new User("boss", "bossPass", "보스", "사람", "대전시 중구 중앙로 76", "4층", new Date()));
 		userRepository.save(new User("choco", "chocoPass", "초코", "곰2", "대전시 중구 중앙로 76", "4층", new Date()));
 		userRepository.save(new User("pangyo", "pangyoPass", "팡요", "판다", "대전시 중구 중앙로 76", "4층", new Date()));
-		userRepository.save(new User("pangyo", "pangyoPass", "팡요", "판다", "대전시 중구 중앙로 76", "4층", new Date()));
-		
-		
 	}
 }

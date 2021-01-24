@@ -1,4 +1,4 @@
-package kr.or.ddit.member.controller;
+package kr.or.ddit.user.controller;
 
 import javax.annotation.Resource;
 
@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.ddit.common.SearchCondition;
-import kr.or.ddit.member.service.UserService;
+import kr.or.ddit.user.service.UserService;
 
 @RequestMapping("member")
 @Controller

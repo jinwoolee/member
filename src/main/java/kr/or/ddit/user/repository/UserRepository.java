@@ -1,4 +1,4 @@
-package kr.or.ddit.login.repository;
+package kr.or.ddit.user.repository;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import kr.or.ddit.login.model.User;
+import kr.or.ddit.user.model.User;
 
 //https://docs.spring.io/spring-data/jpa/docs/1.10.1.RELEASE/reference/html/#jpa.sample-app.finders.strategies
 //https://javacan.tistory.com/entry/SpringDataJPA-Specifcation-Usage
