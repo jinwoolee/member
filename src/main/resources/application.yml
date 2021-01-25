@@ -6,14 +6,14 @@ spring:
 spring:  jpa:
     generate-ddl: true
     properties:      hibernate:
+        dialect: "org.hibernate.dialect.H2Dialect"
         show_sql: true
         format_sql: true
         use_sql_comments: true
 
-logging:  level:    org:
-      hibernate:        
-        type:
-          descriptor:
-            sql: trace 
+logging:  level:    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    kr.or.ddit: debug
+           
 ---
 server:  port: 80      

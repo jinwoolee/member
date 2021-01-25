@@ -7,6 +7,11 @@ import javax.persistence.Id;
 
 @Entity(name="user")
 public class User {
+	
+	static String _userid = "userid";
+	static String _usernm = "usernm";
+	static String _alias  = "alias";
+	
 	public User() {}
 	
 	public User(String userid, String pass, String usernm, String alias, 

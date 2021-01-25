@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import kr.or.ddit.user.model.User;
+import kr.or.ddit.user.model.UserSpecs;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -45,15 +46,23 @@ class UserRepositoryTest {
 	@Test
 	public void findByUseridStartingWith() {
 		/*****GIVEN*****/
-		String userid = "br";
+		String userid = "b";
 		
-		Pageable pageable = PageRequest.of(1, 5, Sort.by(Sort.Direction.ASC, "userid"));
+		//페이지는 0부터 시작한다
+		//Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "userid"));
+		Pageable pageable = PageRequest.of(0, 5);
 		
 		/*****WHEN*****/
-		Page<User> userList =userRepository.findByUseridStartingWith(userid, pageable);
+		Page<User> usersPage =userRepository.findByUseridStartingWith(userid, pageable);
+		log.debug("usersPage.getSize() : {} ", usersPage.getSize());
+		log.debug("usersPage.getNumber() : {} ", usersPage.getNumber());
+		log.debug("usersPage.getNumberOfElements() : {} ", usersPage.getNumberOfElements());
+		log.debug("usersPage.getContent() : {} ", usersPage.getContent());
+		List<User> userList = usersPage.getContent();
 
 		/*****THEN*****/
-		assertEquals(1, userList.getSize());
+		//userid가 b로 시작하는 사용자는 brown, boss 두명이다
+		assertEquals(2, userList.size());
 	}
 	
 	@Test
@@ -61,13 +70,17 @@ class UserRepositoryTest {
 		/*****GIVEN*****/
 		String usernm = "브";
 		
-		Pageable pageable = PageRequest.of(1, 5, Sort.by(Sort.Direction.ASC, "usernm"));
+		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "usernm"));
 		
 		/*****WHEN*****/
 		Page<User> userList =userRepository.findByUsernmStartingWith(usernm, pageable);
+		
+		for(User user : userList) {
+			log.debug("user : {}", user );			
+		}
 
 		/*****THEN*****/
-		assertEquals(1, userList.getSize());
+		assertEquals(1, userList.getContent().size());
 	}
 	
 	@Test
@@ -75,13 +88,13 @@ class UserRepositoryTest {
 		/*****GIVEN*****/
 		String alias = "사람";
 		
-		Pageable pageable = PageRequest.of(1, 5, Sort.by(Sort.Direction.ASC, "alias"));
+		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "alias"));
 		
 		/*****WHEN*****/
 		Page<User> userList =userRepository.findByAliasStartingWith(alias, pageable);
 
 		/*****THEN*****/
-		assertEquals(2, userList.getSize());
+		assertEquals(2, userList.getContent().size());
 	}
 	
 	@Test
@@ -93,6 +106,18 @@ class UserRepositoryTest {
 
 		/*****THEN*****/
 		assertEquals(11, userList.size());
+	}
+	
+	@Test
+	public void findBySpec() {
+		/***Given***/
+		String usernm = "스";
+		
+		/***When***/
+		List<User> users = userRepository.findAll(UserSpecs.usernmLike(usernm));
+		
+		/***Then***/
+		assertEquals(2, users.size());
 	}
 
 }

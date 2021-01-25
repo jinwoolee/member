@@ -12,6 +12,7 @@ import kr.or.ddit.user.model.User;
 
 //https://docs.spring.io/spring-data/jpa/docs/1.10.1.RELEASE/reference/html/#jpa.sample-app.finders.strategies
 //https://javacan.tistory.com/entry/SpringDataJPA-Specifcation-Usage
+//https://gunju-ko.github.io/spring/2018/05/01/Spring-Data-JPA-Paging.html
 @Repository
 public interface UserRepository extends JpaRepository<User, String>{
 	
@@ -23,6 +24,6 @@ public interface UserRepository extends JpaRepository<User, String>{
 	
 	Page<User> findByAliasStartingWith(String usernm, Pageable pageable);
 	
-	Page<User> findAll(Specification<User> spec);
+	List<User> findAll(Specification<User> spec);
 			
 }
