@@ -3,10 +3,13 @@ package kr.or.ddit.user.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -20,17 +23,31 @@ import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import kr.or.ddit.user.model.User;
-import kr.or.ddit.user.model.UserSpecs;
+import kr.or.ddit.model.model.User;
+import kr.or.ddit.model.model.UserSpecs;
+import kr.or.ddit.model.model.UserVo;
+import kr.or.ddit.model.repository.UserRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class UserRepositoryTest {
 	
-	private static final Logger log = LoggerFactory.getLogger(UserRepositoryTest.class);
+	private static final String INSERT_USERID = "insertTest";
 
+	private static final Logger log = LoggerFactory.getLogger(UserRepositoryTest.class);
+	
 	@Resource(name="userRepository")
 	private UserRepository userRepository;
+	
+	@BeforeEach
+	public void setup() {
+		try{
+			//존재하지 않아도 삭제
+			userRepository.deleteById(INSERT_USERID);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Test
 	public void findByOrderByUseridAsc() {
@@ -118,6 +135,32 @@ class UserRepositoryTest {
 		
 		/***Then***/
 		assertEquals(2, users.size());
+	}
+	
+	@Test
+	public void findByIdTest() {
+		/***Given***/
+		String userid = "brown";
+
+		/***When***/
+		Optional<User> user = userRepository.findById(userid);
+
+		/***Then***/
+		assertEquals("브라운", user.get().getUsernm());
+	}
+	
+	@Test
+	public void saveTest() {
+		/***Given***/
+		User user = new User(INSERT_USERID, "insertTestPass", "입력테스트", "입력별명", "대전시 중구 중앙로 76", "4층", " 34540", new Date());
+		
+		/***When***/
+		userRepository.saveAndFlush(user);
+
+		/***Then***/
+		Optional<User> findUser = userRepository.findById(INSERT_USERID);
+		assertEquals(user, findUser.get());
+		
 	}
 
 }

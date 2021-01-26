@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.ddit.login.service.LoginService;
-import kr.or.ddit.user.model.UserVo;
+import kr.or.ddit.model.model.UserVo;
 
 @RequestMapping("login")
 @Controller

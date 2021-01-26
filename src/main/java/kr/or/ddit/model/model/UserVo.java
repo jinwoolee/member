@@ -1,4 +1,4 @@
-package kr.or.ddit.user.model;
+package kr.or.ddit.model.model;
 
 import java.util.Date;
 
@@ -11,6 +11,7 @@ public class UserVo {
 	private String addr1;
 	private String addr2;
 	private Date reg_dt;
+	private String zipcode;
 	
 	public String getUserid() {
 		return userid;
@@ -54,11 +55,15 @@ public class UserVo {
 	public void setReg_dt(Date reg_dt) {
 		this.reg_dt = reg_dt;
 	}
-	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
 	@Override
 	public String toString() {
 		return "UserVo [userid=" + userid + ", pass=" + pass + ", usernm=" + usernm + ", alias=" + alias + ", addr1="
-				+ addr1 + ", addr2=" + addr2 + ", reg_dt=" + reg_dt + "]";
-	}
-	
+				+ addr1 + ", addr2=" + addr2 + ", reg_dt=" + reg_dt + ", zipcode=" + zipcode + "]";
+	}	
 }

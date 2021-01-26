@@ -1,4 +1,4 @@
-package kr.or.ddit.user.model;
+package kr.or.ddit.model.model;
 
 import java.util.Date;
 
@@ -15,13 +15,14 @@ public class User {
 	public User() {}
 	
 	public User(String userid, String pass, String usernm, String alias, 
-				String addr1, String addr2, Date reg_dt) {
+				String addr1, String addr2, String zipcode, Date reg_dt) {
 		this.userid = userid;
 		this.pass = pass;
 		this.usernm = usernm;
 		this.alias = alias;
 		this.addr1 = addr1;
 		this.addr2 = addr2;
+		this.zipcode = zipcode;
 		this.reg_dt = reg_dt;
 	}
 
@@ -34,6 +35,7 @@ public class User {
 	private String alias;
 	private String addr1;
 	private String addr2;
+	private String zipcode;
 	private Date reg_dt;
 	
 	public String getUserid() {
@@ -59,7 +61,11 @@ public class User {
 	public String getAddr2() {
 		return addr2;
 	}
-
+	
+	public String getZipcode() {
+		return zipcode;
+	}
+	
 	public Date getReg_dt() {
 		return reg_dt;
 	}
@@ -67,6 +73,33 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userid=" + userid + ", pass=" + pass + ", usernm=" + usernm + ", alias=" + alias + ", addr1="
-				+ addr1 + ", addr2=" + addr2 + ", reg_dt=" + reg_dt + "]";
-	}	
+				+ addr1 + ", addr2=" + addr2 + ", zipcode=" + zipcode + ", reg_dt=" + reg_dt + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((userid == null) ? 0 : userid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (userid == null) {
+			if (other.userid != null)
+				return false;
+		} else if (!userid.equals(other.userid))
+			return false;
+		return true;
+	}
+
+
 }

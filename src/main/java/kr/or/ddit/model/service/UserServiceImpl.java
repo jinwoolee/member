@@ -1,6 +1,7 @@
-package kr.or.ddit.user.service;
+package kr.or.ddit.model.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -17,9 +18,9 @@ import org.springframework.stereotype.Service;
 
 import kr.or.ddit.common.SearchCondition;
 import kr.or.ddit.common.SearchType;
-import kr.or.ddit.user.model.User;
-import kr.or.ddit.user.model.UserVo;
-import kr.or.ddit.user.repository.UserRepository;
+import kr.or.ddit.model.model.User;
+import kr.or.ddit.model.model.UserVo;
+import kr.or.ddit.model.repository.UserRepository;
 
 @Transactional
 @Service("userService")
@@ -71,4 +72,11 @@ public class UserServiceImpl implements UserService{
 		
 		return userVoList;
 	}
+
+	@Override
+	public UserVo findById(String userid) {
+		return modelMapper.map(userRepository.findById(userid).get(), UserVo.class);
+	}
+	
+	
 }

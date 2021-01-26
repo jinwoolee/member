@@ -14,6 +14,7 @@ spring:  jpa:
 logging:  level:    org.hibernate.SQL: debug
     org.hibernate.type: trace
     kr.or.ddit: debug
+    org.springframework: debug
            
 ---
 server:  port: 80      
