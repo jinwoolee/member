@@ -40,22 +40,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						<!-- form start -->
 						<div class="card">
 							<div class="register-card-body">
-								<form role="form" class="form-horizontal" >
+								<form role="form" class="form-horizontal" action="/member/modify" method="post" enctype="multipart/form-data">
 									<div class="input-group mb-3">
 										<div class="mailbox-attachments clearfix" style="text-align: center; width:100%;">
 											<div class="mailbox-attachment-icon has-img" id="pictureView" style="border: 1px solid green; height: 200px; width: 140px; margin: 0 auto;">
-												<img style="width:100%; height:100%;" src="/member/profile?userid=${member.userid }"/>
+												<img id="pictureViewImg" style="width:100%; height:100%;" src="/member/profile?userid=${member.userid }"/>
+											</div>
+											<div class="mailbox-attachment-info">
+												<div class="input-group input-group-sm">
+													<input id="picture" class="form-control"
+														   type="file" name="picture" accept=".gif, .jpg, .png" style="height:37px;"/>
+												</div>
 											</div>
 										</div>
 										<br />
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-sm-3" style="font-size: 0.9em;">
-											아이디
+										<label for="id" class="col-sm-3" style="font-size: 0.9em;">
+											<span style="color: red; font-weight: bold;">*</span>아이디
 										</label>
-										<div class="col-sm-9 input-group input-group-sm">
+										<div class="col-sm-9 input-group-sm">
 											<span class="input-group-append-sm">${member.userid }</span>
+											<input type="hidden" name="userid" value="${member.userid }"/>
 										</div>
 									</div>
 									
@@ -63,7 +70,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										<label for="pwd" class="col-sm-3" style="font-size: 0.9em;">
 											<span style="color: red; font-weight: bold;">*</span>패스워드</label>
 										<div class="col-sm-9 input-group-sm">
-											<span class="input-group-append-sm">******</span>
+											<input class="form-control" name="pass" type="password" class="form-control" id="pass" placeholder="비밀번호" 
+												value="${member.pass }"/>
 										</div>
 									</div>
 									
@@ -72,40 +80,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											<span style="color: red; font-weight: bold;">*</span>이 름
 										</label>
 										<div class="col-sm-9 input-group-sm">
-											<span class="input-group-append-sm">${member.usernm }</span>
+											<input class="form-control" name="usernm" type="text" id="usernm" placeholder="이름" value="${member.usernm }"/>
 										</div>
 
 									</div>
 									<div class="form-group row">
 										<label for="alias" class="col-sm-3" style="font-size: 0.9em;">별명</label>
 										<div class="col-sm-9 input-group-sm">
-											<span class="input-group-append-sm">${member.alias }</span>
+											<input class="form-control" name="alias" type="text" id="alias" placeholder="별명" value="${member.alias }">
 										</div>
 									</div>
 									<div class="form-group row">
 										<label for="addr1" class="col-sm-3 control-label">주소</label>
 										<div class="col-sm-3 input-group-sm">
-											<span class="input-group-append-sm">${member.addr1 }</span>
+											<input name="addr1" type="text" class="form-control" id="addr1" placeholder="주소" value="${member.addr1 }" readonly>
 										</div>
 										<div class="col-sm-3 input-group-sm">
-											<span class="input-group-append-sm">${member.addr2 }</span>	
+											<input name="addr2" type="text" class="form-control" id="addr2" placeholder="상세주소" value="${member.addr2 }">	
 										</div>
 										
 										<div class="col-sm-2 input-group-sm">
-											<span class="input-group-append-sm">${member.zipcode }</span>
+											<input name="zipcode" type="text" class="form-control" id="zipcode" placeholder="우편번호" value="${member.zipcode }" readonly>
+										</div>
+										<div class="col-sm-1 input-group-sm">
+											<span class="input-group-append-sm">
+												<button type="button" id="addrBtn" class="btn btn-info btn-sm btn-append">주소검색</button>
+											</span>
 										</div>
 									</div>
 									
 									<div class="card-footer">
 										<div class="row">
 											<div class="col-sm-6">
-												<button type="button" id="modifyBtn" class="btn btn-info">수정</button>
+												<button type="submit" id="modifyBtn" class="btn btn-info">등 록</button>
 											</div>
 
 											<div class="col-sm-6">
-												<button type="button" id="cancelBtn" class="btn btn-default float-right">&nbsp;&nbsp;&nbsp;취 &nbsp;&nbsp;소&nbsp;&nbsp;&nbsp;</button>
+												<button type="button" id="cancelBtn" class="btn btn-default float-right">취 소</button>
 											</div>
-
 										</div>
 									</div>
 								</form>
@@ -121,7 +133,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	</div>
 
 	<%@ include file="/WEB-INF/views/common/bottom.jsp" %>
-
 	<!-- ./wrapper -->
 
 	<!-- REQUIRED SCRIPTS -->
@@ -133,6 +144,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<script src="/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="/resources/bootstrap/dist/js/adminlte.min.js"></script>
+	
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		$(document).ready(function(){
 			// picture input의 파일 변경시 이벤트 
@@ -140,12 +153,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			   readURL(this);
 			});
 			
-			$("#cancelBtn").on("click", function(){
-				document.location="/member/list";
-			});
-			
-			$("#modifyBtn").on("click", function(){
-				document.location="/member/modify?userid=${member.userid}";
+			$("#addrBtn").on("click", function(){
+			    new daum.Postcode({
+			        oncomplete: function(data) {
+			        	$("#zipcode").val(data.zonecode);
+			        	$("#addr1").val(data.roadAddress);			            
+			        }
+			    }).open();
 			});
 		});
 		
@@ -159,8 +173,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
-			 
 		
+		function initData(){
+			$("#userid").val("testInsert");
+			$("#usernm").val("테스트입력");
+			$("#pass").val("testInsertPass");
+			$("#alias").val("테스트");
+			$("#addr1").val("대전 중구 중앙로 76");
+			$("#addr2").val("영민빌딩 4층");
+			$("#zipcode").val("34940");
+		}
 	</script>
 </body>
 </html>

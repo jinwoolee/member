@@ -1,4 +1,4 @@
-package kr.or.ddit.model.model;
+package kr.or.ddit.member.model;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

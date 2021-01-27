@@ -1,4 +1,4 @@
-package kr.or.ddit.model.model;
+package kr.or.ddit.member.model;
 
 import java.util.Date;
 
@@ -38,6 +38,9 @@ public class User {
 	private String zipcode;
 	private Date reg_dt;
 	
+	private String filename;
+	private String realFilename;
+	
 	public String getUserid() {
 		return userid;
 	}
@@ -69,11 +72,62 @@ public class User {
 	public Date getReg_dt() {
 		return reg_dt;
 	}
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public String getRealFilename() {
+		return realFilename;
+	}
+	
+	
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public void setUsernm(String usernm) {
+		this.usernm = usernm;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
+
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
+	}
+
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
+	public void setReg_dt(Date reg_dt) {
+		this.reg_dt = reg_dt;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public void setRealFilename(String realFilename) {
+		this.realFilename = realFilename;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userid=" + userid + ", pass=" + pass + ", usernm=" + usernm + ", alias=" + alias + ", addr1="
-				+ addr1 + ", addr2=" + addr2 + ", zipcode=" + zipcode + ", reg_dt=" + reg_dt + "]";
+				+ addr1 + ", addr2=" + addr2 + ", zipcode=" + zipcode + ", reg_dt=" + reg_dt + ", filename=" + filename
+				+ ", realFilename=" + realFilename + "]";
 	}
 
 	@Override

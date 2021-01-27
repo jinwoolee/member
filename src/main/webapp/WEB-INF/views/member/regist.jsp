@@ -40,7 +40,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						<!-- form start -->
 						<div class="card">
 							<div class="register-card-body">
-								<form role="form" class="form-horizontal" >
+								<form role="form" class="form-horizontal" action="/member/regist" method="post" enctype="multipart/form-data">
 									<div class="input-group mb-3">
 										<div class="mailbox-attachments clearfix" style="text-align: center; width:100%;">
 											<div class="mailbox-attachment-icon has-img" id="pictureView" style="border: 1px solid green; height: 200px; width: 140px; margin: 0 auto;">
@@ -110,7 +110,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<div class="card-footer">
 										<div class="row">
 											<div class="col-sm-6">
-												<button type="button" id="registBtn" class="btn btn-info">등록</button>
+												<button type="submit" id="registBtn" class="btn btn-info">등록</button>
 											</div>
 
 											<div class="col-sm-6">

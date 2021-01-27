@@ -7,6 +7,19 @@ public class SearchCondition {
 	private SearchType searchType;
 	private String searchKeyword;
 	
+	public SearchCondition() {}
+	
+	public SearchCondition(Integer page, Integer pageSize, SearchType searchType, String searchKeyword) {
+		setPage(page);
+		setPageSize(pageSize);
+		setSearchType(searchType);
+		setSearchKeyword(searchKeyword);
+	}
+	
+	public SearchCondition(Integer page, Integer pageSize, SearchType searchType) {
+		this(page, pageSize, searchType, null);
+	}
+
 	public Integer getPage() {
 		return page == null ? 0 : page;
 	}

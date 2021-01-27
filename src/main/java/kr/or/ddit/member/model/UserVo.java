@@ -1,4 +1,4 @@
-package kr.or.ddit.model.model;
+package kr.or.ddit.member.model;
 
 import java.util.Date;
 
@@ -12,6 +12,8 @@ public class UserVo {
 	private String addr2;
 	private Date reg_dt;
 	private String zipcode;
+	private String filename;
+	private String realFilename;
 	
 	public String getUserid() {
 		return userid;
@@ -61,9 +63,23 @@ public class UserVo {
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
 	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getRealFilename() {
+		return realFilename;
+	}
+	public void setRealFilename(String realFilename) {
+		this.realFilename = realFilename;
+	}
+	
 	@Override
 	public String toString() {
 		return "UserVo [userid=" + userid + ", pass=" + pass + ", usernm=" + usernm + ", alias=" + alias + ", addr1="
-				+ addr1 + ", addr2=" + addr2 + ", reg_dt=" + reg_dt + ", zipcode=" + zipcode + "]";
-	}	
+				+ addr1 + ", addr2=" + addr2 + ", reg_dt=" + reg_dt + ", zipcode=" + zipcode + ", filename=" + filename
+				+ ", realFilename=" + realFilename + "]";
+	}
 }

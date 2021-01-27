@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import kr.or.ddit.model.model.User;
-import kr.or.ddit.model.repository.UserRepository;
+import kr.or.ddit.member.model.User;
+import kr.or.ddit.member.repository.UserRepository;
 
 @Component
 public class InitData implements InitializingBean{

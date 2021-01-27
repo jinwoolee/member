@@ -1,4 +1,4 @@
-package kr.or.ddit.user.repository;
+package kr.or.ddit.member.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -23,10 +23,10 @@ import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import kr.or.ddit.model.model.User;
-import kr.or.ddit.model.model.UserSpecs;
-import kr.or.ddit.model.model.UserVo;
-import kr.or.ddit.model.repository.UserRepository;
+import kr.or.ddit.member.model.User;
+import kr.or.ddit.member.model.UserSpecs;
+import kr.or.ddit.member.model.UserVo;
+import kr.or.ddit.member.repository.UserRepository;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -160,7 +160,6 @@ class UserRepositoryTest {
 		/***Then***/
 		Optional<User> findUser = userRepository.findById(INSERT_USERID);
 		assertEquals(user, findUser.get());
-		
 	}
 
 }
