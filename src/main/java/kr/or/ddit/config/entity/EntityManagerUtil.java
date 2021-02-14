@@ -6,14 +6,13 @@ import javax.persistence.Persistence;
 
 public class EntityManagerUtil {
 	
-	private static EntityManager em;
+	private static EntityManagerFactory entityManagerFactory;
 	
 	static {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("hibernate");
-		em = entityManagerFactory.createEntityManager();
+		entityManagerFactory = Persistence.createEntityManagerFactory("hibernate");
 	}
 	
 	public static EntityManager getEm() {
-		return em;
+		return entityManagerFactory.createEntityManager();
 	}
 }
