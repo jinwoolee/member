@@ -12,28 +12,33 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kr.or.ddit.dept.repository.DeptRepository;
+import kr.or.ddit.dept.repository.DeptRepositoryImpl;
 import kr.or.ddit.emp.repository.EmpRepository;
 import kr.or.ddit.emp.repository.EmpRepositoryImpl;
 
-public class EmpTest {
+public class EmpRepositoryTest {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EmpTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(EmpRepositoryTest.class);
 	
-	private EmpRepository empRepository; 
-
+	private EmpRepository empRepository;
+	private Emp newEmp;
+	
 	@BeforeEach
 	public void setup() throws ParseException {
 		
 		empRepository = new EmpRepositoryImpl();
 		
 		empRepository.deleteAll();
-		empRepository.save(new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+		
+		newEmp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+		empRepository.save(newEmp);
 	}
 
 	@Test
 	public void findTest(){
 		/***Given***/
-		Long empno = 1L;
+		Long empno = newEmp.getEmpno();
 
 		/***When***/
 		Emp emp = empRepository.findEmp(empno);
@@ -80,8 +85,8 @@ public class EmpTest {
 		empRepository.deleteAll();
 
 		/***Then***/
-		assertEquals(0, empRepository.findAll().size());
-		
+		assertEquals(0, empRepository.findAll().size());		
 	}
+	
 
 }
