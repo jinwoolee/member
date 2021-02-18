@@ -15,7 +15,10 @@ public class EmpRepositoryImpl implements EmpRepository{
 	public EmpRepositoryImpl() {
 		this.em = EntityManagerUtil.getEm();
 	}
-	
+
+	public EmpRepositoryImpl(EntityManager em) {
+		this.em = em;
+	}
 
 	@Override
 	public Emp findEmp(Long empno) {

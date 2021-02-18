@@ -55,6 +55,15 @@
         <level value="debug"/>
         <appender-ref ref="STDOUT"/>
     </logger>
+    
+<!-- 	<logger name="org.hibernate.SQL" level="debug"> -->
+<!-- 		<appender-ref ref="STDOUT" /> -->
+<!-- 	</logger> -->
+	
+	<logger name="org.hibernate.type.descriptor.sql" level="trace">
+		<appender-ref ref="STDOUT" />
+	</logger>
+
 <!--    <root level="DEBUG"> -->
 <!--        <appender-ref ref="STDOUT" /> -->
 <!--    </root> -->

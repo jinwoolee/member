@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import kr.or.ddit.dept.repository.DeptRepository;
-import kr.or.ddit.dept.repository.DeptRepositoryImpl;
 import kr.or.ddit.emp.repository.EmpRepository;
 import kr.or.ddit.emp.repository.EmpRepositoryImpl;
 
