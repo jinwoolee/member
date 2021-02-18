@@ -15,4 +15,8 @@ public interface EmpRepository {
 	void delete(Emp emp);
 	
 	void deleteAll();
+	
+	long totalEmpCnt();
+	
+	List<Emp> findByEname(String ename);
 }

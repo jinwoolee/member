@@ -86,5 +86,30 @@ public class EmpRepositoryTest {
 		assertEquals(0, empRepository.findAll().size());		
 	}
 	
+	@Test
+	public void totalEmpCnt() throws ParseException {
+		/***Given***/
+		
+		empRepository.save(new Emp("sally", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+
+		/***When***/
+		long totalCnt = empRepository.totalEmpCnt();
+		
+		/***Then***/
+		assertEquals(2, totalCnt);
+	}
+	
+	@Test
+	public void findByEnameTest() {
+		/***Given***/
+		String ename="brown";
+		
+		/***When***/
+		List<Emp> empList = empRepository.findByEname(ename);
+				
+		/***Then***/
+		assertEquals(1, empList.size());
+		assertEquals("ranger", empList.get(0).getJob());
+	}
 
 }

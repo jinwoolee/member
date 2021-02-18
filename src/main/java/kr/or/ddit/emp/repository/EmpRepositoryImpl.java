@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import kr.or.ddit.config.entity.EntityManagerUtil;
 import kr.or.ddit.emp.model.Emp;
@@ -27,7 +28,7 @@ public class EmpRepositoryImpl implements EmpRepository{
 
 	@Override
 	public List<Emp> findAll() {
-		return em.createQuery("from Emp").getResultList();
+		return em.createQuery("from Emp", Emp.class).getResultList();
 	}
 
 	@Override
@@ -53,6 +54,24 @@ public class EmpRepositoryImpl implements EmpRepository{
 		tx.begin();
 		em.createQuery("delete From Emp").executeUpdate();
 		tx.commit();
+	}
+
+	@Override
+	public long totalEmpCnt() {
+		
+		TypedQuery<Long> totalCnt = em.createQuery("SELECT COUNT(*) FROM Emp AS e", Long.class);
+		
+		return totalCnt.getSingleResult();
+	}
+
+	@Override
+	public List<Emp> findByEname(String ename) {
+		
+		TypedQuery<Emp> empTypedQuery 
+				= em.createQuery("SELECT e FROM Emp AS e WHERE ename = ?1", Emp.class);
+		empTypedQuery.setParameter(1, ename);
+		
+		return empTypedQuery.getResultList();
 	}
 	
 	
