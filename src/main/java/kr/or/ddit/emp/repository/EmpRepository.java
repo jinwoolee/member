@@ -19,4 +19,8 @@ public interface EmpRepository {
 	long totalEmpCnt();
 	
 	List<Emp> findByEname(String ename);
+	
+	List<Emp> empPaingList(int page, int pageSize);
+	
+	Emp serarchByEmpno(Long empno);
 }

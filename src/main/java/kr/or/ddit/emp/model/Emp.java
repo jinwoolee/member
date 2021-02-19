@@ -4,22 +4,24 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import kr.or.ddit.dept.model.Dept;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
+//@NamedQueries(value = {@NamedQuery(name = "Emp.searchByEmpno", 
+//								   query="SELECT e FROM Emp e WHERE e.empno = :empno ")})
 public class Emp {
 
 	@GeneratedValue

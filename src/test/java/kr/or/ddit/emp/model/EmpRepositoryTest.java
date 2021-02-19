@@ -112,4 +112,51 @@ public class EmpRepositoryTest {
 		assertEquals(1, empList.size());
 		assertEquals("ranger", empList.get(0).getJob());
 	}
+	
+	@Test
+	public void empPagingListTest() throws ParseException {
+		/***Given***/
+		//@BeforeEach에서 brown 입력됨
+		empRepository.save(new Emp("sally", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+		empRepository.save(new Emp("moon", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+		empRepository.save(new Emp("james", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+		empRepository.save(new Emp("cony", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+		empRepository.save(new Emp("boss", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+		empRepository.save(new Emp("edward", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L));
+
+		/***When***/
+		List<Emp> empPagingList = empRepository.empPaingList(1, 5);
+		logger.debug("empPagingList : {}", empPagingList );
+
+		/***Then***/
+		assertEquals(5, empPagingList.size());
+		assertEquals("cony", empPagingList.get(4).getEname());
+	}
+	
+	@Test
+	public void searchByEmpnoTest() {
+		/***Given***/
+		Long empno = 1L;
+
+		/***When***/
+		Emp emp = empRepository.serarchByEmpno(empno);
+
+		/***Then***/
+		assertEquals("brown", emp.getEname());
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

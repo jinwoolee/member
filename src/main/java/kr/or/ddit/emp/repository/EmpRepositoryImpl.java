@@ -72,9 +72,36 @@ public class EmpRepositoryImpl implements EmpRepository{
 //		empTypedQuery.setParameter(1, ename);
 		
 		TypedQuery<Emp> empTypedQuery 
-		= em.createQuery("SELECT e FROM Emp AS e WHERE ename = :ename", Emp.class);
+		= em.createQuery("SELECT e FROM Enp AS e WHERE ename = :ename", Emp.class);
 		empTypedQuery.setParameter("ename", ename);
 		
 		return empTypedQuery.getResultList();
 	}
+
+	@Override
+	public List<Emp> empPaingList(int page, int pageSize) {
+		TypedQuery<Emp> empTypedQuery 
+		= em.createQuery("SELECT e FROM Emp AS e ORDER BY e.empno", Emp.class);
+		
+		empTypedQuery.setFirstResult( (page-1) * pageSize);
+		empTypedQuery.setMaxResults(page * pageSize);
+		
+		return empTypedQuery.getResultList();
+	}
+
+	@Override
+	public Emp serarchByEmpno(Long empno) {
+		TypedQuery<Emp> empTypedQuery 
+			= em.createNamedQuery("Emp.searchByEmpno", Emp.class);
+		
+		empTypedQuery.setParameter("empno", empno);
+		
+		return empTypedQuery.getSingleResult();
+	}
 }
+
+
+
+
+
+

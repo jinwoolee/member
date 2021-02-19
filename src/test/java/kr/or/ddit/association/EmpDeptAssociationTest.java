@@ -1,11 +1,14 @@
 package kr.or.ddit.association;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -162,7 +165,7 @@ class EmpDeptAssociationTest {
 	}
 	
 	@Test
-	public void empDeptJoinTest() throws ParseException {
+	public void empDeptImplictJoinTest() throws ParseException {
 		/*****GIVEN*****/
 		Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
 		Dept dept = new Dept("LINE", "판교");
@@ -177,13 +180,123 @@ class EmpDeptAssociationTest {
 		
 		em.clear();
 		
-		TypedQuery<Emp> typedQuery = 
-				em.createQuery("SELECT e, e.dept FROM Emp e", Emp.class);
-				//em.createQuery("SELECT e FROM Emp e INNER JOIN Dept d", Emp.class);
-		List<Emp> empList = typedQuery.getResultList();
-		logger.debug("ename : {} ", empList.get(0).getEname());
+		TypedQuery<Object[]> typedQuery = em.createQuery("SELECT e, e.dept FROM Emp e", Object[].class);
+		
+		Object[] result = typedQuery.getSingleResult();
+		
+		logger.debug("emp : {}", result[0]);
+		logger.debug("dept : {}", result[1]);
 		
 		/*****THEN*****/
+		assertEquals(2, result.length);
+	}
+	
+	@Test
+	public void empDeptExplictJoinTest() throws ParseException {
+		/*****GIVEN*****/
+		Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+		Dept dept = new Dept("LINE", "판교");
+		emp.setDept(dept);
+		
+		/*****WHEN*****/
+		EntityTransaction tx =  em.getTransaction();
+		tx.begin();
+		
+		em.persist(emp);
+		tx.commit();
+		
+		em.clear();
+		
+		TypedQuery<Object[]> typedQuery = em.createQuery("SELECT e, d FROM Emp e INNER JOIN e.dept d", Object[].class);
+		
+		Object[] result = typedQuery.getSingleResult();
+		
+		logger.debug("emp : {}", result[0]);
+		logger.debug("dept : {}", result[1]);
+		
+		/*****THEN*****/
+		assertEquals(2, result.length);
+	}
+	
+	@Test
+	public void empDeptThetaJoinTest() throws ParseException {
+		/*****GIVEN*****/
+		Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+		Dept dept = new Dept("LINE", "판교");
+		emp.setDept(dept);
+		
+		/*****WHEN*****/
+		EntityTransaction tx =  em.getTransaction();
+		tx.begin();
+		
+		em.persist(emp);
+		tx.commit();
+		
+		em.clear();
+		
+		TypedQuery<Object[]> typedQuery = em.createQuery("SELECT e, d FROM Emp e, Dept d WHERE e.dept = d.deptno", Object[].class);
+		
+		Object[] result = typedQuery.getSingleResult();
+		
+		logger.debug("emp : {}", result[0]);
+		logger.debug("dept : {}", result[1]);
+		
+		/*****THEN*****/
+		assertEquals(2, result.length);
+	}
+	
+	@Test
+	public void empDeptNoJoinFetchTest() throws ParseException {
+		/*****GIVEN*****/
+		Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+		Dept dept = new Dept("LINE", "판교");
+		emp.setDept(dept);
+		
+		/*****WHEN*****/
+		EntityTransaction tx =  em.getTransaction();
+		tx.begin();
+		
+		em.persist(emp);
+		tx.commit();
+		
+		em.clear();
+		
+		TypedQuery<Emp> typedQuery = em.createQuery("SELECT e FROM Emp e", Emp.class);
+		
+		Emp findedEmp = typedQuery.getSingleResult();
+		
+		logger.debug("emp.getDept() : {}", findedEmp.getDept());
+		
+		
+		/*****THEN*****/
+		assertEquals("brown", findedEmp.getEname());
+	}
+	
+	@Test
+	public void empDeptJoinFetchTest() throws ParseException {
+		/*****GIVEN*****/
+		Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+		Dept dept = new Dept("LINE", "판교");
+		emp.setDept(dept);
+		
+		/*****WHEN*****/
+		EntityTransaction tx =  em.getTransaction();
+		tx.begin();
+		
+		em.persist(emp);
+		tx.commit();
+		
+		em.clear();
+		
+		TypedQuery<Emp> typedQuery = em.createQuery("SELECT e FROM Emp e JOIN FETCH e.dept", Emp.class);
+		
+		Emp joinFetchEmp = typedQuery.getSingleResult();
+		
+		logger.debug("emp : {}", joinFetchEmp);
+		
+		
+		/*****THEN*****/
+		assertEquals("brown", joinFetchEmp.getEname());
 	}
 }
 
