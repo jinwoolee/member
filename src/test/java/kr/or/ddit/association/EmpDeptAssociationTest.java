@@ -2,9 +2,11 @@ package kr.or.ddit.association;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -159,6 +161,30 @@ class EmpDeptAssociationTest {
 		logger.debug("dept : {} ", em.find(Dept.class, dept.getDeptno()));
 	}
 	
+	@Test
+	public void empDeptJoinTest() throws ParseException {
+		/*****GIVEN*****/
+		Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+		Dept dept = new Dept("LINE", "판교");
+		emp.setDept(dept);
+		
+		/*****WHEN*****/
+		EntityTransaction tx =  em.getTransaction();
+		tx.begin();
+		
+		em.persist(emp);
+		tx.commit();
+		
+		em.clear();
+		
+		TypedQuery<Emp> typedQuery = 
+				em.createQuery("SELECT e, e.dept FROM Emp e", Emp.class);
+				//em.createQuery("SELECT e FROM Emp e INNER JOIN Dept d", Emp.class);
+		List<Emp> empList = typedQuery.getResultList();
+		logger.debug("ename : {} ", empList.get(0).getEname());
+		
+		/*****THEN*****/
+	}
 }
 
 

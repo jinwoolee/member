@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kr.or.ddit.dept.model.Dept;
 import kr.or.ddit.emp.repository.EmpRepository;
 import kr.or.ddit.emp.repository.EmpRepositoryImpl;
 
@@ -111,5 +112,4 @@ public class EmpRepositoryTest {
 		assertEquals(1, empList.size());
 		assertEquals("ranger", empList.get(0).getJob());
 	}
-
 }

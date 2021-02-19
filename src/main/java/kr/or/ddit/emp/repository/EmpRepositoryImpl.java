@@ -67,14 +67,14 @@ public class EmpRepositoryImpl implements EmpRepository{
 	@Override
 	public List<Emp> findByEname(String ename) {
 		
+//		TypedQuery<Emp> empTypedQuery 
+//				= em.createQuery("SELECT e FROM Emp AS e WHERE ename = ?1", Emp.class);
+//		empTypedQuery.setParameter(1, ename);
+		
 		TypedQuery<Emp> empTypedQuery 
-				= em.createQuery("SELECT e FROM Emp AS e WHERE ename = ?1", Emp.class);
-		empTypedQuery.setParameter(1, ename);
+		= em.createQuery("SELECT e FROM Emp AS e WHERE ename = :ename", Emp.class);
+		empTypedQuery.setParameter("ename", ename);
 		
 		return empTypedQuery.getResultList();
 	}
-	
-	
-	
-
 }
