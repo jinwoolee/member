@@ -5,11 +5,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import kr.or.ddit.emp.model.Emp;
 import lombok.AllArgsConstructor;
@@ -43,7 +41,7 @@ public class Dept {
     
     public void addEmp(Emp emp) {
     	if(empList.contains(emp) == false) {
-    		empList.add(emp);
+    	    empList.add(emp);
     	}
     }
 }

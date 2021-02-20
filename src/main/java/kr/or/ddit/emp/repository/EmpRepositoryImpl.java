@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import kr.or.ddit.config.entity.EntityManagerUtil;
 import kr.or.ddit.emp.model.Emp;
@@ -67,12 +70,8 @@ public class EmpRepositoryImpl implements EmpRepository{
 	@Override
 	public List<Emp> findByEname(String ename) {
 		
-//		TypedQuery<Emp> empTypedQuery 
-//				= em.createQuery("SELECT e FROM Emp AS e WHERE ename = ?1", Emp.class);
-//		empTypedQuery.setParameter(1, ename);
-		
 		TypedQuery<Emp> empTypedQuery 
-		= em.createQuery("SELECT e FROM Enp AS e WHERE ename = :ename", Emp.class);
+		= em.createQuery("SELECT e FROM Emp AS e WHERE ename = :ename", Emp.class);
 		empTypedQuery.setParameter("ename", ename);
 		
 		return empTypedQuery.getResultList();
@@ -97,6 +96,26 @@ public class EmpRepositoryImpl implements EmpRepository{
 		empTypedQuery.setParameter("empno", empno);
 		
 		return empTypedQuery.getSingleResult();
+	}
+
+	@Override
+	public Emp serarchByEmpnoCriteria(Long empno) {
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    
+	    //검색할 타입의 객체
+	    CriteriaQuery<Emp> query = builder.createQuery(Emp.class);
+	    
+	    //from
+	    Root<Emp> root = query.from(Emp.class);
+	    
+	    //select (전체 컬럼 조회시 생략 가능)
+	    //query.multiselect(root.get("empno"), root.get("ename"));
+	    query.select(root);
+	    
+	    //where
+	    query.where(builder.equal(root.get("empno"), empno));
+	    
+	    return em.createQuery(query).getSingleResult();
 	}
 }
 

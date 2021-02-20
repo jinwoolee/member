@@ -1,15 +1,21 @@
 package kr.or.ddit.association;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -298,7 +304,272 @@ class EmpDeptAssociationTest {
 		/*****THEN*****/
 		assertEquals("brown", joinFetchEmp.getEname());
 	}
+	
+	@Test
+	public void empDeptCriteriaImplictJoinTest() throws ParseException {
+	    /***given***/
+	    Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    emp.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(emp);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+	    Root<Emp> root = query.from(Emp.class);
+	    
+	    query.multiselect(root.get("empno"), root.get("ename"), root.get("dept").get("dname"));
+	    
+	    List<Object[]> list = em.createQuery(query).getResultList();
+	    for(Object[] obj : list) {
+		logger.debug("obj : {}", Arrays.toString(obj));
+	    }
+
+	    /***then***/
+	}
+	
+	@Test
+	public void empDeptCriteriaExplictJoinTest() throws ParseException {
+	    /***given***/
+	    Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    emp.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(emp);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+	    Root<Emp> root = query.from(Emp.class);
+	    
+	    Join<Emp, Dept> joinDept = root.join("dept");
+	    
+	    query.multiselect(root.get("empno"), root.get("ename"), joinDept.get("dname"));
+	    
+	    List<Object[]> list = em.createQuery(query).getResultList();
+	    for(Object[] obj : list) {
+		logger.debug("obj : {}", Arrays.toString(obj));
+	    }
+
+	    /***then***/
+	}
+	
+	@Test
+	public void empDeptCriteriaExplictJoinNoRelationTest() throws ParseException {
+	    /***given***/
+	    Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    emp.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(emp);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+	    Root<Emp> empRoot = query.from(Emp.class);
+	    Root<Dept> deptRoot = query.from(Dept.class);
+	    
+	    query.where(builder.equal(empRoot.get("dept").get("deptno"), deptRoot.get("deptno")));
+	    
+	    query.multiselect(empRoot.get("empno"), empRoot.get("ename"), deptRoot.get("dname"));
+	    
+	    List<Object[]> list = em.createQuery(query).getResultList();
+	    for(Object[] obj : list) {
+		logger.debug("obj : {}", Arrays.toString(obj));
+	    }
+
+	    /***then***/
+	}
+	
+	@Test
+	public void empDeptCriteriaJoinFetchTest() throws ParseException {
+	    /***given***/
+	    Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    emp.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(emp);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Dept> query = builder.createQuery(Dept.class);
+	    
+	    Root<Dept> deptRoot = query.from(Dept.class);
+	    query.select(deptRoot);
+	    
+	    deptRoot.fetch("empList");
+	    
+	    List<Dept> list = em.createQuery(query).getResultList();
+	    for(Dept deptObj : list) {
+		logger.debug("obj : {}", deptObj);
+	    }
+
+	    /***then***/
+	}
+	
+	@Test
+	public void predicateTest() throws ParseException {
+	    /***given***/
+	    Emp emp = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    emp.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(emp);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Dept> query = builder.createQuery(Dept.class);
+	    
+	    Root<Dept> deptRoot = query.from(Dept.class);
+	    
+	    Predicate[] predicate = {	builder.equal(deptRoot.get("dname"), "LINE"),
+		    			builder.equal(deptRoot.get("loc"), "판교") };
+	    query.where(builder.and(predicate));
+	    
+	    deptRoot.fetch("empList");
+	    
+	    List<Dept> list = em.createQuery(query).getResultList();
+	    for(Dept deptObj : list) {
+		logger.debug("obj : {}", deptObj);
+	    }
+
+	    /***then***/
+	}
+	
+	@Test
+	public void criteriaGroupByTest() throws ParseException {
+	    /***given***/
+	    Emp brown = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Emp sally = new Emp("sally", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    brown.setDept(dept);
+	    sally.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(brown);
+	    em.persist(sally);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+	    
+	    Root<Emp> empRoot = query.from(Emp.class);
+	    
+	    query.groupBy(empRoot.get("dept").get("deptno"));
+	    
+	    query.multiselect(empRoot.get("dept").get("deptno"), 
+		    	      builder.count(empRoot),
+		    	      builder.sum(empRoot.<Double>get("sal")));
+	    
+	    Object[] obj = em.createQuery(query).getSingleResult();
+	    logger.debug("obj : {}", Arrays.toString(obj));
+
+	    /***then***/
+	}
+	
+	@Test
+	public void criteriaOrderByTest() throws ParseException {
+	    /***given***/
+	    Emp brown = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Emp sally = new Emp("sally", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    brown.setDept(dept);
+	    sally.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(brown);
+	    em.persist(sally);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    CriteriaQuery<Emp> query = builder.createQuery(Emp.class);
+	    
+	    Root<Emp> empRoot = query.from(Emp.class);
+	    
+	    query.orderBy(builder.desc(empRoot.get("ename")));
+	    
+	    List<Emp> empList = em.createQuery(query).getResultList();
+	    for(Emp empObj : empList) {
+		logger.debug("emp : {}", empObj);
+	    }
+
+	    /***then***/
+	}
+	
+	@Test
+	public void criteriaSubqueryTest() throws ParseException {
+	    /***given***/
+	    Emp brown = new Emp("brown", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Emp sally = new Emp("sally", "ranger", null, new SimpleDateFormat("yyyyMMdd").parse("20200808"), 1000L, 500L);
+	    Dept dept = new Dept("LINE", "판교");
+	    brown.setDept(dept);
+	    sally.setDept(dept);
+	    
+	    EntityTransaction tx = em.getTransaction();
+	    
+	    tx.begin();
+	    em.persist(brown);
+	    em.persist(sally);
+	    tx.commit();
+	    em.clear();
+	
+	    /***when***/
+	    CriteriaBuilder builder = em.getCriteriaBuilder();
+	    
+	    CriteriaQuery<Emp> query = builder.createQuery(Emp.class);
+	    Root<Emp> empRoot = query.from(Emp.class);
+	    
+	    Subquery<Dept> subquery = query.subquery(Dept.class);
+	    Root<Dept> deptRoot = subquery.from(Dept.class);
+	    subquery.select(deptRoot.get("deptno"));
+	    
+	    query.where(builder.in(empRoot.get("dept").get("deptno")).value(subquery));
+	    
+	    List<Emp> empList = em.createQuery(query).getResultList();
+	    for(Emp empObj : empList) {
+		logger.debug("emp : {}", empObj);
+	    }
+
+	    /***then***/
+	}
 }
+
+
+
 
 
 

@@ -136,13 +136,23 @@ public class EmpRepositoryTest {
 	@Test
 	public void searchByEmpnoTest() {
 		/***Given***/
-		Long empno = 1L;
 
 		/***When***/
-		Emp emp = empRepository.serarchByEmpno(empno);
+		Emp emp = empRepository.serarchByEmpno(newEmp.getEmpno());
 
 		/***Then***/
 		assertEquals("brown", emp.getEname());
+	}
+	
+	@Test
+	public void serarchByEmpnoCriteriaTest() {
+	    /***given***/
+	    
+	    /***when***/
+	    Emp emp = empRepository.serarchByEmpnoCriteria(newEmp.getEmpno());
+	    
+	    /***then***/
+	    assertEquals("brown", emp.getEname());
 	}
 }
 

@@ -23,4 +23,6 @@ public interface EmpRepository {
 	List<Emp> empPaingList(int page, int pageSize);
 	
 	Emp serarchByEmpno(Long empno);
+	
+	Emp serarchByEmpnoCriteria(Long empno);
 }

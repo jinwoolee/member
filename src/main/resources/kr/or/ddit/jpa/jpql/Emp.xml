@@ -11,5 +11,5 @@
  		FROM Emp e 
  		WHERE e.empno = :empno
  	</query>
- </named-query>     
+ </named-query>
 </entity-mappings>

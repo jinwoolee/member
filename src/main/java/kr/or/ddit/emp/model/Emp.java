@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ import lombok.NoArgsConstructor;
 //								   query="SELECT e FROM Emp e WHERE e.empno = :empno ")})
 public class Emp {
 
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
 	private Long empno;
 	
@@ -40,7 +41,12 @@ public class Emp {
 	private Dept dept;
 	
 	public Emp(String ename, String job, Long mgrno, Date hiredate, Long sal, Long comm) {
-		this(null, ename, job, mgrno, hiredate, sal, comm, null);
+	    setEname(ename);
+	    setJob(job);
+	    setMgrno(mgrno);
+	    setHiredate(hiredate);
+	    setSal(sal);
+	    setComm(comm);
 	}
 	
 }
