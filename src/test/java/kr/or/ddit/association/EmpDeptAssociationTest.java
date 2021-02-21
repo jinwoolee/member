@@ -7,8 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,28 +21,36 @@ import javax.persistence.criteria.Subquery;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.ddit.config.entity.EntityManagerUtil;
+import kr.or.ddit.config.spring.JPAContext;
+import kr.or.ddit.config.spring.TxContext;
 import kr.or.ddit.dept.model.Dept;
 import kr.or.ddit.emp.model.Emp;
 import kr.or.ddit.emp.repository.EmpRepository;
 import kr.or.ddit.emp.repository.EmpRepositoryImpl;
 
+@Transactional
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes= {JPAContext.class, TxContext.class})
 class EmpDeptAssociationTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmpDeptAssociationTest.class);
 	
-	private EntityManager em; 
+	@Resource(name="empRepository")
 	private EmpRepository empRepository;
 	
+	@PersistenceContext
+	private EntityManager em;
+	
 	@BeforeEach
-	public void setup() throws ParseException {
-		em = EntityManagerUtil.getEm();
-		
-		empRepository = new EmpRepositoryImpl(em);
-		
+	public void setup() throws ParseException {	
 		empRepository.deleteAll();
 	}
 	
@@ -52,12 +62,9 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/***When***/
-		EntityTransaction tx =  em.getTransaction();
 		
-		tx.begin();
 		em.persist(dept);
 		em.persist(emp);
-		tx.commit();
 		
 		em.clear();
 		Long empno = emp.getEmpno();
@@ -76,12 +83,8 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/***When***/
-		EntityTransaction tx =  em.getTransaction();
-		
-		tx.begin();
 		em.persist(dept);
 		em.persist(emp);
-		tx.commit();
 		
 		em.clear();
 		Long deptno = dept.getDeptno();
@@ -103,9 +106,6 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/***When***/
-		EntityTransaction tx =  em.getTransaction();
-		
-		tx.begin();
 		logger.debug("dept.getEmpList() : {}", dept.getEmpList());
 		
 		em.persist(dept);
@@ -118,7 +118,6 @@ class EmpDeptAssociationTest {
 		logger.debug("emp.getDept() : {}", emp.getDept());
 		
 		logger.debug("dept.getEmpList() : {}", em.find(Dept.class, dept.getDeptno()).getEmpList() );		
-		tx.commit();
 	}
 	
 	@Test
@@ -130,9 +129,6 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/***When***/
-		EntityTransaction tx =  em.getTransaction();
-		
-		tx.begin();
 		logger.debug("dept.getEmpList() : {}", dept.getEmpList());
 		
 		//em.persist(dept);
@@ -145,7 +141,6 @@ class EmpDeptAssociationTest {
 		logger.debug("emp.getDept() : {}", emp.getDept());
 		
 		logger.debug("dept.getEmpList() : {}", em.find(Dept.class, dept.getDeptno()).getEmpList() );		
-		tx.commit();
 	}
 	
 	@Test
@@ -158,11 +153,7 @@ class EmpDeptAssociationTest {
 		
 		dept.addEmp(emp);
 		
-		EntityTransaction tx =  em.getTransaction();
-		tx.begin();
-		
 		em.persist(dept);
-		tx.commit();
 		
 		em.clear();
 		
@@ -178,11 +169,7 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/*****WHEN*****/
-		EntityTransaction tx =  em.getTransaction();
-		tx.begin();
-		
 		em.persist(emp);
-		tx.commit();
 		
 		em.clear();
 		
@@ -205,12 +192,7 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/*****WHEN*****/
-		EntityTransaction tx =  em.getTransaction();
-		tx.begin();
-		
 		em.persist(emp);
-		tx.commit();
-		
 		em.clear();
 		
 		TypedQuery<Object[]> typedQuery = em.createQuery("SELECT e, d FROM Emp e INNER JOIN e.dept d", Object[].class);
@@ -232,12 +214,7 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/*****WHEN*****/
-		EntityTransaction tx =  em.getTransaction();
-		tx.begin();
-		
 		em.persist(emp);
-		tx.commit();
-		
 		em.clear();
 		
 		TypedQuery<Object[]> typedQuery = em.createQuery("SELECT e, d FROM Emp e, Dept d WHERE e.dept = d.deptno", Object[].class);
@@ -259,12 +236,7 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/*****WHEN*****/
-		EntityTransaction tx =  em.getTransaction();
-		tx.begin();
-		
 		em.persist(emp);
-		tx.commit();
-		
 		em.clear();
 		
 		TypedQuery<Emp> typedQuery = em.createQuery("SELECT e FROM Emp e", Emp.class);
@@ -272,7 +244,6 @@ class EmpDeptAssociationTest {
 		Emp findedEmp = typedQuery.getSingleResult();
 		
 		logger.debug("emp.getDept() : {}", findedEmp.getDept());
-		
 		
 		/*****THEN*****/
 		assertEquals("brown", findedEmp.getEname());
@@ -286,12 +257,7 @@ class EmpDeptAssociationTest {
 		emp.setDept(dept);
 		
 		/*****WHEN*****/
-		EntityTransaction tx =  em.getTransaction();
-		tx.begin();
-		
 		em.persist(emp);
-		tx.commit();
-		
 		em.clear();
 		
 		TypedQuery<Emp> typedQuery = em.createQuery("SELECT e FROM Emp e JOIN FETCH e.dept", Emp.class);
@@ -299,7 +265,6 @@ class EmpDeptAssociationTest {
 		Emp joinFetchEmp = typedQuery.getSingleResult();
 		
 		logger.debug("emp : {}", joinFetchEmp);
-		
 		
 		/*****THEN*****/
 		assertEquals("brown", joinFetchEmp.getEname());
@@ -312,11 +277,7 @@ class EmpDeptAssociationTest {
 	    Dept dept = new Dept("LINE", "판교");
 	    emp.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(emp);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -341,11 +302,7 @@ class EmpDeptAssociationTest {
 	    Dept dept = new Dept("LINE", "판교");
 	    emp.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(emp);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -372,11 +329,7 @@ class EmpDeptAssociationTest {
 	    Dept dept = new Dept("LINE", "판교");
 	    emp.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(emp);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -404,11 +357,7 @@ class EmpDeptAssociationTest {
 	    Dept dept = new Dept("LINE", "판교");
 	    emp.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(emp);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -435,11 +384,7 @@ class EmpDeptAssociationTest {
 	    Dept dept = new Dept("LINE", "판교");
 	    emp.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(emp);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -471,12 +416,8 @@ class EmpDeptAssociationTest {
 	    brown.setDept(dept);
 	    sally.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(brown);
 	    em.persist(sally);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -506,12 +447,8 @@ class EmpDeptAssociationTest {
 	    brown.setDept(dept);
 	    sally.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(brown);
 	    em.persist(sally);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/
@@ -539,12 +476,8 @@ class EmpDeptAssociationTest {
 	    brown.setDept(dept);
 	    sally.setDept(dept);
 	    
-	    EntityTransaction tx = em.getTransaction();
-	    
-	    tx.begin();
 	    em.persist(brown);
 	    em.persist(sally);
-	    tx.commit();
 	    em.clear();
 	
 	    /***when***/

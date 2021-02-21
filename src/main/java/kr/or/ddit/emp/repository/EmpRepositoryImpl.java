@@ -4,25 +4,25 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import kr.or.ddit.config.entity.EntityManagerUtil;
 import kr.or.ddit.emp.model.Emp;
 
+@Repository("empRepository")
 public class EmpRepositoryImpl implements EmpRepository{
-	
+
+    	@PersistenceContext
 	private EntityManager em;
 	
-	public EmpRepositoryImpl() {
-		this.em = EntityManagerUtil.getEm();
-	}
-
-	public EmpRepositoryImpl(EntityManager em) {
-		this.em = em;
-	}
+	
 
 	@Override
 	public Emp findEmp(Long empno) {
@@ -36,27 +36,18 @@ public class EmpRepositoryImpl implements EmpRepository{
 
 	@Override
 	public void save(Emp emp) {
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
 		em.persist(emp);
-		tx.commit();
 	}
 
 	@Override
 	public void delete(Emp emp) {
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
 		em.remove(emp);
-		tx.commit();
 	}
 
 
 	@Override
 	public void deleteAll() {
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
 		em.createQuery("delete From Emp").executeUpdate();
-		tx.commit();
 	}
 
 	@Override

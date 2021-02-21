@@ -7,26 +7,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
-import kr.or.ddit.dept.model.Dept;
+import kr.or.ddit.config.spring.JPAContext;
+import kr.or.ddit.config.spring.TxContext;
 import kr.or.ddit.emp.repository.EmpRepository;
-import kr.or.ddit.emp.repository.EmpRepositoryImpl;
 
+@Transactional
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes= {JPAContext.class, TxContext.class})
 public class EmpRepositoryTest {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmpRepositoryTest.class);
 	
+	@Resource(name="empRepository")
 	private EmpRepository empRepository;
 	private Emp newEmp;
 	
 	@BeforeEach
 	public void setup() throws ParseException {
-		
-		empRepository = new EmpRepositoryImpl();
 		
 		empRepository.deleteAll();
 		
@@ -70,6 +78,7 @@ public class EmpRepositoryTest {
 		logger.debug("empno : {} ", empno);
 		
 		/***When***/
+		
 		empRepository.delete(emp);
 
 		/***Then***/
