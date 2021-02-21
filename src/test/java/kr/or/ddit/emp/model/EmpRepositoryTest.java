@@ -18,13 +18,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.ddit.config.spring.DataSourceContext;
 import kr.or.ddit.config.spring.JPAContext;
 import kr.or.ddit.config.spring.TxContext;
 import kr.or.ddit.emp.repository.EmpRepository;
 
 @Transactional
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes= {JPAContext.class, TxContext.class})
+@ContextConfiguration(classes= {JPAContext.class, TxContext.class, DataSourceContext.class})
 public class EmpRepositoryTest {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmpRepositoryTest.class);

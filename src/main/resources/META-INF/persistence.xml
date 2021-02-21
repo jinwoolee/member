@@ -9,26 +9,5 @@
     	<mapping-file>kr/or/ddit/jpa/jpql/Dept.xml</mapping-file>
     	
     
-        <properties>
-        
-        	<!-- 애플리케이션 실행 시점에 데이터베이스 테이블 자동 생성 -->
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
-            
-        	<!-- 옵션 -->
-            <!-- 콘솔에 하이버네이트가 실행하는 SQL문 출력 -->
-            <property name="hibernate.show_sql" value="true"/>
-            <!-- SQL 출력 시 보기 쉽게 정렬 -->
-            <property name="hibernate.format_sql" value="true"/>
-            <!-- 쿼리 출력 시 주석(comments)도 함께 출력 -->
-            <property name="hibernate.use_sql_comments" value="true"/>
-            
-            <!-- 필수 속성 -->
-            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-            <property name="javax.persistence.jdbc.user" value="sa"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
-<!--             <property name="javax.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/test"/> -->
-			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-        </properties>
     </persistence-unit>
 </persistence>

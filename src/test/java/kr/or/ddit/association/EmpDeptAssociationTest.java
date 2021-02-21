@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,17 +27,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.or.ddit.config.entity.EntityManagerUtil;
+import kr.or.ddit.config.spring.DataSourceContext;
 import kr.or.ddit.config.spring.JPAContext;
 import kr.or.ddit.config.spring.TxContext;
 import kr.or.ddit.dept.model.Dept;
 import kr.or.ddit.emp.model.Emp;
 import kr.or.ddit.emp.repository.EmpRepository;
-import kr.or.ddit.emp.repository.EmpRepositoryImpl;
 
 @Transactional
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes= {JPAContext.class, TxContext.class})
+@ContextConfiguration(classes= {JPAContext.class, TxContext.class, DataSourceContext.class})
 class EmpDeptAssociationTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(EmpDeptAssociationTest.class);
