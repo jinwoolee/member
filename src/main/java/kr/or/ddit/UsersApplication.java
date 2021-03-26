@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+
 @ComponentScan(basePackageClasses = {ComponentScanI.class} )
 //@ComponentScan(basePackages = "kr.or.ddit")
 @SpringBootApplication
@@ -17,6 +19,12 @@ public class UsersApplication {
 	@Bean
 	public ModelMapper modelMapper() {
 	    return new ModelMapper();
+	}
+	
+	// thymeleaf layout
+	@Bean
+	public LayoutDialect layoutDialect() {
+	    return new LayoutDialect();
 	}
 
 }

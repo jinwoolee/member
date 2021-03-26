@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="/resources/bootstrap/plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/resources/bootstrap/dist/css/adminlte.min.css">
+
+<!-- 개별적인 css -->
+<th:block layout:fragment="css"></th:block>
+
+<!-- 개별적인 js -->
+<th:block layout:fragment="js"></th:block>
+
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">layout title</title>
+
+</head>
+<body>
+
+<body class="hold-transition sidebar-mini">
+	<div class="wrapper">
+		<!-- navFragement -->
+		<nav th:replace="common/nav :: navFragement"></nav>
+		<!-- navFragement -->
+		
+		<!-- leftFragement -->
+		<aside th:replace="common/left :: leftFragement"></aside>
+		<!-- leftFragement -->
+			
+		<!-- contentFragement -->	
+		<div layout:fragment="content">
+			this area is content1
+		</div>
+		<!-- contentFragement -->
+				
+	</div>
+</body>
+</html>

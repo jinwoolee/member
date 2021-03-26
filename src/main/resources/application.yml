@@ -1,8 +1,15 @@
+#spring:
+#  mvc:#    view:#      prefix: "/WEB-INF/views/"
+#      suffix: ".jsp"
+
 spring:
-  mvc:    view:      prefix: "/WEB-INF/views/"
-      suffix: ".jsp"
+  thymeleaf:
+    prefix: "classpath:templates/"
+    check-template-location: true
+    suffix: ".html"
+    mode: "HTML5"
+    cache: false
 ---
-#https://lannstark.tistory.com/14
 spring:  jpa:
     generate-ddl: true
     properties:      hibernate:

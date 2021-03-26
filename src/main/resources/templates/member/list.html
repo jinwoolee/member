@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/common/layout">
+
+<head>
+	<meta charset="utf-8">	
+	<title>회원 리스트</title>
+</head>
+
+<div layout:fragment="content" id="if_list_div"
+	style="position: relative; padding: 0; overflow: hidden; height: 750px;">
+	<div class="content-wrapper" style="min-height: 584px;">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<div class="container-fluid">
+				<div class="row md-2">
+					<div class="col-sm-6">
+						<h1>회원리스트</h1>
+					</div>
+					<div class="col-sm-6">
+						<ol class="breadcrumb float-sm-right">
+							<li class="breadcrumb-item">회원리스트</li>
+							<li class="breadcrumb-item">목록</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Main content -->
+		<section class="content">
+			<div class="card">
+				<div class="card-header with-border">
+					<a href="/member/regist"><button type="button"
+							class="btn btn-primary">회원등록</button></a>
+					<div id="keyword" class="card-tools" style="width: 550px;">
+						<form id="frm" action="/member/list">
+							<div class="input-group row">
+								<!-- sort num -->
+								<select class="form-control col-md-3" name="pageSize"
+									id="pageSize">
+									<option>정렬개수</option>
+									<option value="3">3개씩</option>
+									<option value="5">5개씩</option>
+									<option value="7">7개씩</option>
+								</select>
+								<!-- search bar -->
+								<select class="form-control col-md-3" name="searchType"
+									id="searchType">
+									<option value="none">검색구분</option>
+									<option value="userid">아이디</option>
+									<option value="usernm">이름</option>
+									<option value="alias">별명</option>
+								</select> <input class="form-control" type="text" name="searchKeyword"
+									id="searchKeyword" placeholder="검색어를 입력하세요."> <span
+									class="input-group-append">
+									<button class="btn btn-primary" type="submit" id="searchBtn"
+										data-card-widget="search">
+										<i class="fa fa-fw fa-search"></i>
+									</button>
+								</span>
+
+								<!-- end : search bar -->
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="card-body" style="text-align: center;">
+					<div class="row">
+						<div class="col-sm-12">
+
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>아이디</th>
+										<th>이름</th>
+										<th>별명</th>
+										<th>도로주소</th>
+										<th>등록날짜</th>
+										<!-- yyyy-MM-dd  -->
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="user : ${userList}">
+										<td th:text="${user.userid}"></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+						<!-- col-sm-12 -->
+					</div>
+					<!-- row -->
+				</div>
+				<!-- card-body -->
+				<div class="card-footer">
+					<nav aria-label="member list Navigation">
+						<ul class="pagination justify-content-center m-0">
+							<li class="page-item"><a class="page-link" href="#"><i
+									class="fas fa-angle-double-left"></i></a></li>
+							<li class="page-item"><a class="page-link" href="#"><i
+									class="fas fa-angle-left"></i></a></li>
+							<li class="page-item active"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#"><i
+									class="fas fa-angle-right"></i></a></li>
+							<li class="page-item"><a class="page-link" href="#"><i
+									class="fas fa-angle-double-right"></i></a></li>
+						</ul>
+					</nav>
+
+				</div>
+				<!-- card-footer -->
+			</div>
+			<!-- card  -->
+		</section>
+	</div>
+
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED SCRIPTS -->
+
+	<!-- jQuery -->
+	<script src="/resources/bootstrap/plugins/jquery/jquery.min.js"></script>
+
+	<!-- Bootstrap 4 -->
+	<script
+		src="/resources/bootstrap/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="/resources/bootstrap/dist/js/adminlte.min.js"></script>
+
+	<script>
+		$(function() {
+			$("#pageSize").val(0);
+			$("#searchType").val("");
+			$("#searchKeyword").val("");
+			$("#searchKeyword").focus();
+
+			$(".userTr").on(
+					"click",
+					function() {
+						document.location = "/member/member?userid="
+								+ $(this).data("userid");
+					});
+		});
+	</script>
+</div>
+
+
+
+
+
+
+</html>
