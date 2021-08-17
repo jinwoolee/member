@@ -1,0 +1,72 @@
+{{#mainLayout}}
+    <form class="form-horizontal" role="form" action="/member/modify" method="post">
+        <div class="form-group">
+            <label for="memberid" class="col-sm-2 control-label">사용자 아이디</label>
+            <div class="col-sm-4">
+                <label class="control-label" id="memberid">{{member.memberid}}</label>
+                <input type="hidden" name="memberid" value="{{member.memberid}}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="membernm" class="col-sm-2 control-label">사용자 이름</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="membernm" name="membernm"
+                       placeholder="사용자 이름" value="{{member.membernm}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="alias" class="col-sm-2 control-label">별명</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="alias" name="alias"
+                       placeholder="별명" value="{{member.alias}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="addr1" class="col-sm-2 control-label">주소</label>
+            <div class="col-sm-4">
+                <label class="control-label" id="addr1">{{member.addr1}}</label>
+                <input type="hidden" name="addr1" value="{{member.addr1}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="addr2" class="col-sm-2 control-label">상세주소</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="addr2" name="addr2"
+                       placeholder="상세주소" value="{{member.addr2}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="zipcode" class="col-sm-2 control-label">우편번호</label>
+            <div class="col-sm-2">
+                <label class="control-label" id="zipcode">{{member.zipcode}}</label>
+                <input type="hidden" name="zipcode" value="{{member.zipcode}}"/>
+            </div>
+            <div class="col-sm-2">
+                <button id="zipcodeBtn" type="button" class="btn btn-default">우편번호 찾기</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="modifyBtn" type="submit" class="btn btn-default">사용자 수정</button>
+            </div>
+        </div>
+    </form>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        $("#zipcodeBtn").on("click", function (){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    $("#addr1").text(data.roadAddress);
+                    $("input[name=addr1]").val(data.roadAddress);
+
+                    $("#zipcode").text(data.zonecode);
+                    $("input[name=zipcode]").val(data.zonecode);
+
+                    $("input[name=addr2]").focus();
+                }
+            }).open();
+        });
+    </script>
+{{/mainLayout}}

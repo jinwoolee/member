@@ -1,0 +1,26 @@
+{{#mainLayout}}
+    <div class="blog-post">
+        <h2 class="blog-post-title">main</h2>
+        <p class="blog-post-meta">mustache</p>
+
+        <p>mustache 테스트</p>
+        <hr>
+
+        <h3>mustache</h3>
+        <p>주요 템플릿</p>
+        <ul>
+            {{! {{ 문자열 표기를 위해 delimiter 설정을 변경 }}
+            {{=<% %>=}}
+            <li>{{template}} : variable(escaped) </li>
+            <li>{{{template}}}, {{&template}} : variable(unescaped) </li>
+            <li>{{#template}} {{/template}} : sections, Nom-Empty Lists, Lambda, Non-False values(map) </li>
+            <li>{{^template}} {{/template}} : inverted sections</li>
+            <li>{{!comments}} : comments</li>
+            <li>{{>partials}} : partials</li>
+            <li>{{=&lt;% %&gt;=}} : set delimiter</li>
+
+            <%! delimiter 설정 원복 %>
+            <%={{ }}=%>
+        </ul>
+    </div>
+{{/mainLayout}}

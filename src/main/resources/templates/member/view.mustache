@@ -1,0 +1,56 @@
+{{#mainLayout}}
+    <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label for="memberid" class="col-sm-2 control-label">사용자 아이디</label>
+            <div class="col-sm-10">
+                <label class="control-label" id="memberid">{{member.memberid}}</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="membernm" class="col-sm-2 control-label">사용자 이름</label>
+            <div class="col-sm-10">
+                <label class="control-label" id="membernm">{{member.membernm}}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="alias" class="col-sm-2 control-label">별명</label>
+            <div class="col-sm-10">
+                <label class="control-label" id="alias">{{member.alias}}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="addr1" class="col-sm-2 control-label">주소</label>
+            <div class="col-sm-10">
+                <label class="control-label" id="addr1">{{member.addr1}}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="addr2" class="col-sm-2 control-label">상세 주소</label>
+            <div class="col-sm-10">
+                <label class="control-label" id="addr2">{{member.addr2}}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="zipcode" class="col-sm-2 control-label">우편번호</label>
+            <div class="col-sm-10">
+                <label class="control-label" id="zipcode">{{member.zipcode}}</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button id="modifyBtn" type="button" class="btn btn-default">사용자 수정</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(function (){
+            //멤버 수정 버튼 이벤트 핸들러
+            $("#modifyBtn").on("click", function(){
+                document.location="/member/modify?memberid={{member.memberid}}";
+            });
+        });
+    </script>
+{{/mainLayout}}

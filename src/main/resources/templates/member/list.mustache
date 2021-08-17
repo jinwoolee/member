@@ -1,0 +1,53 @@
+{{#mainLayout}}
+    <style>
+        .memberTr{
+            cursor: pointer;
+        }
+    </style>
+
+    <div class="blog-header">
+        <h1 class="blog-title">Main</h1>
+        <p class="lead blog-description">mustache</p>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 blog-main">
+            <h2 class="sub-header">사용자</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <tr>
+                        <th>사용자 아이디</th>
+                        <th>사용자 이름</th>
+                        <th>사용자 별명</th>
+                        <th>등록일시</th>
+                    </tr>
+
+                    {{#memberList}}
+                        <tr class="memberTr" data-memberid="{{memberid}}">
+                            <td>{{memberid}}</td>
+                            <td>{{membernm}}</td>
+                            <td>{{alias}}</td>
+                            <td>{{reg_dt}}</td>
+                        </tr>
+                    {{/memberList}}
+                </table>
+            </div>
+
+            <a class="btn btn-default pull-right">사용자 등록</a>
+
+            <div class="text-center">
+                <ul class="pagination">
+                    {{{pageNavigation}}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function (){
+           $(".memberTr").on("click", function (){
+              let memberid = $(this).data("memberid");
+              document.location = `/member/view?memberid=${memberid}`;
+           });
+        });
+    </script>
+{{/mainLayout}}
