@@ -41,7 +41,9 @@
 
                 <div class="text-center">
                     <ul class="pagination">
-                        [(${pageNavigation})]  <!--/* [()] : unescape (utext), [[]] : escape (text) */-->
+                        <th:block th:each="i : ${#numbers.sequence(1, pages)}">
+                            <li><a th:href="@{/member/list(page=${i-1})}" th:text="${i}">1</a></li>
+                        </th:block>
                     </ul>
                 </div>
             </div>
