@@ -80,6 +80,7 @@ public class MemberServiceImpl implements MemberService {
 		resultMap.put("pageNavigation", pageNavigation);
 		resultMap.put("memberList", memberVoList);
 		resultMap.put("memberTotalCount", memberTotalCount);
+		resultMap.put("pages", (long)Math.ceil((double)memberTotalCount / sc.getPageSize()));
 
 		return resultMap;
 	}
