@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="/common/layout">
+
+    <style layout:fragment="pageCss">
+        .memberTr{
+            cursor: pointer;
+        }
+    </style>
+
+    <th:block layout:fragment="content">
+        <div class="blog-header">
+            <h1 class="blog-title">Main</h1>
+            <p class="lead blog-description">thymeleaf</p>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8 blog-main">
+                <h2 class="sub-header">사용자</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>사용자 아이디</th>
+                            <th>사용자 이름</th>
+                            <th>사용자 별명</th>
+                            <th>등록일시</th>
+                        </tr>
+
+                        <tr th:each="member : ${memberList}"  class="memberTr" th:data-memberid="${member.memberid}">
+                            <td th:text="${member.memberid}">멤버 아이디</td>
+                            <td th:text="${member.membernm}">멤버 이름</td>
+                            <td th:text="${member.alias}">멤버 별명</td>
+                            <td th:text="${#dates.format(member.reg_dt, 'yyyy-MM-dd')}">등록일자</td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <a class="btn btn-default pull-right">사용자 등록</a>
+
+                <div class="text-center">
+                    <ul class="pagination">
+                        [(${pageNavigation})]  <!--/* [()] : unescape (utext), [[]] : escape (text) */-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
+
+    <script layout:fragment="pageJs">
+        $(function (){
+           $(".memberTr").on("click", function (){
+              let memberid = $(this).data("memberid");
+              document.location = `/member/view?memberid=${memberid}`;
+           });
+        });
+    </script>
+</html>

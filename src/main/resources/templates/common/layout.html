@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>mustache</title>
+
+    <th:block th:replace="common/css"></th:block>
+
+    <th:block layout:fragment="pageCss"></th:block>
+</head>
+<body>
+
+<th:block th:replace="common/nav"></th:block>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <th:block th:replace="common/left"></th:block>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <th:block layout:fragment="content"></th:block>
+
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="common/js"/>
+
+<th:block layout:fragment="pageJs"/>
+</body>
+</html>
