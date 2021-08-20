@@ -42,7 +42,7 @@
                 <div class="text-center">
                     <ul class="pagination">
                         <th:block th:each="i : ${#numbers.sequence(1, pages)}">
-                            <li><a th:href="@{/member/list(page=${i-1})}" th:text="${i}">1</a></li>
+                            <li><a th:href="@{/member/list(page=${i}-1)}" th:text="${i}">1</a></li>
                         </th:block>
                     </ul>
                 </div>
